@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const supabase = require('../db'); // Importe o arquivo de configuração do Supabase
+const supabase = require('../db');
 
 // Rota para validar o login de um aluno (via POST)
 router.post('/login', async (req, res) => {
