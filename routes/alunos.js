@@ -102,6 +102,55 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Rota para atualizar os dados de um aluno com base no ID (via PATCH)
+router.patch('/:id', async (req, res) => {
+    const alunoId = req.params.id;
+    const { name, email, password, bio, semestre } = req.body;
+
+    // Verifica se os campos obrigatórios estão presentes
+    if (!name || !email || !password) {
+        return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
+    }
+
+    try {
+        const existingEmail = await supabase
+            .from('Alunos')
+            .select('id')
+            .eq('email', email)
+            .neq('id', alunoId)
+            .single();
+
+        console.log('Email já cadastrado:', existingEmail.data);
+        if (existingEmail.data) {
+            return res.status(400).json({ error: 'Email já cadastrado para outro aluno' });
+        }
+    } catch (e) {
+        return res.status(500).json({ error: e.message });
+    }
+
+    try {
+        const { data, error } = await supabase
+            .from('Alunos')
+            .update({ name, email, password, bio, semestre })
+            .eq('id', alunoId)
+            .select();
+
+            console.log('data :'+data);
+            console.log('error :'+error);
+        if (error) {
+            return res.status(500).json({ error: 'Erro ao atualizar os dados do aluno' });
+        }
+        if (data != null) {
+            return res.status(200).json({ message: 'Dados do aluno atualizados com sucesso', aluno: data });
+        } else {
+            return res.status(404).json({ error: 'Aluno não encontrado' });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: 'Erro ao atualizar os dados do aluno' });
+    }
+});
+
+
 
 
 module.exports = router;
