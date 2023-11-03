@@ -77,5 +77,31 @@ router.post('/cadastro', async (req, res) => {
     }
 });
 
+// Rota para obter dados de um aluno com base no ID
+router.get('/:id', async (req, res) => {
+    const alunoId = req.params.id;
+
+    try {
+        const { data, error } = await supabase
+            .from('Alunos')
+            .select('*')
+            .eq('id', alunoId)
+            .single();
+
+        if (error) {
+            throw error;
+        }
+
+        if (data) {
+            return res.status(200).json({ aluno: data });
+        } else {
+            return res.status(404).json({ error: 'Aluno não encontrado' });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: 'Erro ao obter informações do aluno' });
+    }
+});
+
+
 
 module.exports = router;
