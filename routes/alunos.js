@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../db');
 
-
-
+// Rota para obter todos os alunos
 router.get('/', async (req, res) => {
     try {
         const { data, error } = await supabase
