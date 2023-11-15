@@ -2,6 +2,27 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../db');
 
+// Rota para obter todos os tutores
+router.get('/', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('Tutores')
+            .select('*');
+
+        if (error) {
+            throw error;
+        }
+
+        if (data && data.length > 0) {
+            return res.status(200).json({ tutors: data });
+        } else {
+            return res.status(404).json({ error: 'Nenhum tutor encontrado' });
+        }
+    } catch (e) {
+        return res.status(500).json({ error: 'Erro ao obter tutores', details: e.message });
+    }
+});
+
 // Rota para validar o login de um tutor (via POST)
 router.post('/login', async (req, res) => {
     const { email, password } = req.body; // Espera que os dados sejam passados no corpo da requisição
