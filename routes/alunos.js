@@ -128,9 +128,9 @@ router.patch('/:id', async (req, res) => {
     const { name, email, password, bio, semestre } = req.body;
 
     // Verifica se os campos obrigatórios estão presentes
-    if (!name || !email || !password) {
-        return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
-    }
+    // if (!name || !email || !password) {
+    //     return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
+    // }
 
     try {
         const existingEmail = await supabase
