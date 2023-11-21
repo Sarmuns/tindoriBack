@@ -7,6 +7,7 @@ const materiasRouter = require("./routes/materias");
 
 //
 const ConversaRouter = require("./rotas/ConversaRotas");
+const MensagemRouter = require("./rotas/MensagemRotas");
 
 const app = express();
 app.use(cors());
@@ -19,6 +20,7 @@ app.use("/materias", materiasRouter);
 
 //
 app.use("/conversas", ConversaRouter);
+app.use("/mensagens", MensagemRouter);
 
 const PORT = 3000;
 
