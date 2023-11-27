@@ -133,21 +133,21 @@ router.post('/login', async (req, res) => {
     //      return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
     //  }
 
-     try {
-         const existingEmail = await supabase
-             .from('Tutores')
-             .select('id')
-             .eq('email', email)
-             .neq('id', tutorId)
-             .single();
+    //  try {
+    //      const existingEmail = await supabase
+    //          .from('Tutores')
+    //          .select('id')
+    //          .eq('email', email)
+    //          .neq('id', tutorId)
+    //          .single();
 
-         console.log('Email já cadastrado:', existingEmail.data);
-         if (existingEmail.data) {
-             return res.status(400).json({ error: 'Email já cadastrado para outro tutor' });
-         }
-     } catch (e) {
-         return res.status(500).json({ error: e.message });
-     }
+    //      console.log('Email já cadastrado:', existingEmail.data);
+    //      if (existingEmail.data) {
+    //          return res.status(400).json({ error: 'Email já cadastrado para outro tutor' });
+    //      }
+    //  } catch (e) {
+    //      return res.status(500).json({ error: e.message });
+    //  }
 
      try {
          const { data, error } = await supabase
