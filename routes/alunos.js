@@ -125,7 +125,7 @@ router.get('/:id', async (req, res) => {
 // Rota para atualizar os dados de um aluno com base no ID (via PATCH)
 router.patch('/:id', async (req, res) => {
     const alunoId = req.params.id;
-    const { name, email, password, bio, semestre } = req.body;
+    const { name, email, password, bio, semestre, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram } = req.body;
 
     // Verifica se os campos obrigatórios estão presentes
     // if (!name || !email || !password) {
@@ -151,7 +151,7 @@ router.patch('/:id', async (req, res) => {
     try {
         const { data, error } = await supabase
             .from('Alunos')
-            .update({ name, email, password, bio, semestre })
+            .update({ name, email, password, bio, semestre, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram  })
             .eq('id', alunoId)
             .select();
 
