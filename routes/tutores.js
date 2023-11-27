@@ -126,33 +126,33 @@ router.post('/login', async (req, res) => {
  // Rota para atualizar os dados de um aluno com base no ID (via PATCH)
  router.patch('/:id', async (req, res) => {
      const tutorId = req.params.id;
-     const { name, email, password, bio, semestre, instituicaoDeEnsino, subjects, quantidadeAlunos } = req.body;
+     const { name, email, password, bio, semestre, instituicaoDeEnsino, subjects, quantidadeAlunos, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram } = req.body;
 
     //  Verifica se os campos obrigatórios estão presentes
     //  if (!name || !email || !password) {
     //      return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
     //  }
 
-    //  try {
-    //      const existingEmail = await supabase
-    //          .from('Tutores')
-    //          .select('id')
-    //          .eq('email', email)
-    //          .neq('id', tutorId)
-    //          .single();
+      try {
+          const existingEmail = await supabase
+              .from('Tutores')
+              .select('id')
+              .eq('email', email)
+              .neq('id', tutorId)
+              .single();
 
-    //      console.log('Email já cadastrado:', existingEmail.data);
-    //      if (existingEmail.data) {
-    //          return res.status(400).json({ error: 'Email já cadastrado para outro tutor' });
-    //      }
-    //  } catch (e) {
-    //      return res.status(500).json({ error: e.message });
-    //  }
+          console.log('Email já cadastrado:', existingEmail.data);
+          if (existingEmail.data) {
+              return res.status(400).json({ error: 'Email já cadastrado para outro tutor' });
+          }
+      } catch (e) {
+          return res.status(500).json({ error: e.message });
+      }
 
      try {
          const { data, error } = await supabase
              .from('Tutores')
-             .update({ name, email, password, bio, semestre, instituicaoDeEnsino, subjects, quantidadeAlunos })
+             .update({ name, email, password, bio, semestre, instituicaoDeEnsino, subjects, quantidadeAlunos, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram })
              .eq('id', tutorId)
              .select();
 
