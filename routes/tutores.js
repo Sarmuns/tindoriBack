@@ -99,29 +99,44 @@ router.post('/login', async (req, res) => {
  });
 
 //  Rota para obter dados de um aluno com base no ID
- router.get('/:id', async (req, res) => {
-     const tutorId = req.params.id;
+router.get('/:id', async (req, res) => {
+    const tutorId = req.params.id;
 
-     try {
-         const { data, error } = await supabase
-             .from('Tutores')
-             .select('*')
-             .eq('id', tutorId)
-             .single();
+    try {
+        const { data, error } = await supabase
+            .from('Tutores')
+            .select('*')
+            .eq('id', tutorId)
+            .single();
 
-         if (error) {
-             throw error;
-         }
+        if (error) {
+            throw error;
+        }
 
-         if (data) {
-             return res.status(200).json({ tutor: data });
-         } else {
-             return res.status(404).json({ error: 'Tutor não encontrado' });
-         }
-     } catch (e) {
-         return res.status(500).json({ error: 'Erro ao obter informações do tutor', error: e });
-     }
- });
+        if (data) {
+            // Obtém informações sobre as matérias com base nos IDs no array subjects
+            const subjectsIds = data.subjects || []; // Assuming subjects is an array in the response
+            const { data: subjectsData, error: subjectsError } = await supabase
+                .from('Materias')
+                .select('*')
+                .in('id', subjectsIds);
+
+            if (subjectsError) {
+                return res.status(500).json({ error: 'Erro ao obter informações das matérias', error: subjectsError });
+            }
+
+            // Adiciona as informações das matérias ao objeto de resposta do tutor
+            data.subjectsData = subjectsData;
+
+            return res.status(200).json({ tutor: data });
+        } else {
+            return res.status(404).json({ error: 'Tutor não encontrado' });
+        }
+    } catch (e) {
+        return res.status(500).json({ error: 'Erro ao obter informações do tutor', error: e });
+    }
+});
+
 
  // Rota para atualizar os dados de um aluno com base no ID (via PATCH)
  router.patch('/:id', async (req, res) => {
