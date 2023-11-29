@@ -128,6 +128,7 @@ router.post('/login', async (req, res) => {
      const tutorId = req.params.id;
      const { name, email, password, bio, semestre, instituicaoDeEnsino, subjects, quantidadeAlunos, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram } = req.body;
 
+     const uniqueSubjects = [...new Set(subjects)];
     //  Verifica se os campos obrigatórios estão presentes
     //  if (!name || !email || !password) {
     //      return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
@@ -152,7 +153,7 @@ router.post('/login', async (req, res) => {
      try {
          const { data, error } = await supabase
              .from('Tutores')
-             .update({ name, email, password, bio, semestre, instituicaoDeEnsino, subjects, quantidadeAlunos, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram })
+             .update({ name, email, password, bio, semestre, instituicaoDeEnsino, subjects: uniqueSubjects, quantidadeAlunos, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram })
              .eq('id', tutorId)
              .select();
 
