@@ -115,7 +115,7 @@ router.get('/:id', async (req, res) => {
 
         if (data) {
             // Obtém informações sobre as matérias com base nos IDs no array subjects
-            const subjectsIds = data.subjects || []; // Assuming subjects is an array in the response
+            const subjectsIds = data.subjects || []; 
             const { data: subjectsData, error: subjectsError } = await supabase
                 .from('Materias')
                 .select('*')
@@ -143,7 +143,11 @@ router.get('/:id', async (req, res) => {
      const tutorId = req.params.id;
      const { name, email, password, bio, semestre, instituicaoDeEnsino, subjects, quantidadeAlunos, avatar, linkURL, linkDiscord, linkYoutube, linkTwitter, linkInstagram } = req.body;
 
-     const uniqueSubjects = [...new Set(subjects)];
+     let uniqueSubjects;
+
+     if (subjects != null) {
+         uniqueSubjects = [...new Set(subjects)];
+     }
     //  Verifica se os campos obrigatórios estão presentes
     //  if (!name || !email || !password) {
     //      return res.status(400).json({ error: 'Nome, email e senha são obrigatórios' });
