@@ -2,7 +2,7 @@ const ConversaService = require("../services/ConversaService");
 
 const listarConversasAluno = async (req, res) => {
   try {
-    console.log("ID sendo enviado: " + req.body.id);
+    console.log("ID sendo enviado: " + req.params.id);
     const { data, error } = await ConversaService.listarConversasAluno(
       req.params.id
     );
