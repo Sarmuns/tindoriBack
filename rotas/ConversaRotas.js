@@ -4,8 +4,8 @@ const router = express.Router();
 const ConversaController = require("../controllers/ConversaController");
 
 // listar
-router.get("/aluno", ConversaController.listarConversasAluno);
-router.get("/tutor", ConversaController.listarConversasTutor);
+router.get("/aluno/:id", ConversaController.listarConversasAluno);
+router.get("/tutor/:id", ConversaController.listarConversasTutor);
 
 // deletar
 router.delete("/excluir/:id", ConversaController.excluirConversa);

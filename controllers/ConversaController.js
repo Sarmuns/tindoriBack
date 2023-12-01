@@ -2,9 +2,9 @@ const ConversaService = require("../services/ConversaService");
 
 const listarConversasAluno = async (req, res) => {
   try {
-    console.log("ID sendo enviado: " + req.body.id);
+    console.log("ID sendo enviado: " + req.params.id);
     const { data, error } = await ConversaService.listarConversasAluno(
-      req.body.id
+      req.params.id
     );
 
     if (error) {
@@ -19,7 +19,7 @@ const listarConversasAluno = async (req, res) => {
 const listarConversasTutor = async (req, res) => {
   try {
     const { data, error } = await ConversaService.listarConversasTutor(
-      req.body.id
+      req.params.id
     );
 
     if (error) {
